@@ -1,12 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
 
   useEffect(() => {
     const savedMode = localStorage.getItem('darkMode');
     setDarkMode(savedMode === 'true');
   }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted with data:', formData);
+  };
 
   const bgColor = darkMode ? 'bg-gray-900' : 'bg-white';
   const textColor = darkMode ? 'text-white' : 'text-black';
@@ -81,7 +100,7 @@ const Login = () => {
               </p>
             </div>
 
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6">
                 <label
                   htmlFor="Email"
@@ -94,6 +113,8 @@ const Login = () => {
                   type="email"
                   id="Email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
@@ -110,6 +131,8 @@ const Login = () => {
                   type="password"
                   id="Password"
                   name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
@@ -119,7 +142,9 @@ const Login = () => {
                   <input
                     type="checkbox"
                     id="RememberMe"
-                    name="remember_me"
+                    name="rememberMe"
+                    checked={formData.rememberMe}
+                    onChange={handleInputChange}
                     className={`h-5 w-5 rounded-md ${inputBorderColor} ${inputBgColor} shadow-sm`}
                   />
 
@@ -146,16 +171,19 @@ const Login = () => {
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                <button 
+                  type="submit"
+                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                >
                   Log in
                 </button>
 
                 <p className={`mt-4 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'} sm:mt-0`}>
                   Don't have an account?
-                  <a href="#" className={`${textColor} underline`}>
+                  <Link to="/signup" className={`${textColor} underline`}>
                     {" "}
-                    Sign up
-                  </a>
+                    Signup
+                  </Link>
                   .
                 </p>
               </div>

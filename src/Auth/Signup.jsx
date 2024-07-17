@@ -1,12 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    marketingAccept: false,
+  });
 
   useEffect(() => {
     const savedMode = localStorage.getItem('darkMode');
     setDarkMode(savedMode === 'true');
   }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form Data:', formData);
+  };
 
   const bgColor = darkMode ? 'bg-gray-900' : 'bg-white';
   const textColor = darkMode ? 'text-white' : 'text-black';
@@ -82,97 +104,102 @@ const Signup = () => {
                 Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
               </p>
             </div>
-
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="FirstName"
+                  htmlFor="firstName"
                   className={`block text-sm font-medium ${labelColor}`}
                 >
                   First Name
                 </label>
-
                 <input
                   type="text"
-                  id="FirstName"
-                  name="first_name"
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="LastName"
+                  htmlFor="lastName"
                   className={`block text-sm font-medium ${labelColor}`}
                 >
-                    Last Name
+                  Last Name
                 </label>
-
                 <input
                   type="text"
-                  id="LastName"
-                  name="last_name"
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
 
               <div className="col-span-6">
                 <label
-                  htmlFor="Email"
+                  htmlFor="email"
                   className={`block text-sm font-medium ${labelColor}`}
                 >
                   Email
                 </label>
-
                 <input
                   type="email"
-                  id="Email"
+                  id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="Password"
+                  htmlFor="password"
                   className={`block text-sm font-medium ${labelColor}`}
                 >
                   Password
                 </label>
-
                 <input
                   type="password"
-                  id="Password"
+                  id="password"
                   name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="PasswordConfirmation"
+                  htmlFor="passwordConfirmation"
                   className={`block text-sm font-medium ${labelColor}`}
                 >
                   Password Confirmation
                 </label>
-
                 <input
                   type="password"
-                  id="PasswordConfirmation"
-                  name="password_confirmation"
+                  id="passwordConfirmation"
+                  name="passwordConfirmation"
+                  value={formData.passwordConfirmation}
+                  onChange={handleInputChange}
                   className={`mt-1 w-full rounded-md ${inputBorderColor} ${inputBgColor} ${inputTextColor} text-sm shadow-sm h-12 px-4`}
                 />
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="MarketingAccept" className="flex gap-4">
+                <label htmlFor="marketingAccept" className="flex gap-4">
                   <input
                     type="checkbox"
-                    id="MarketingAccept"
-                    name="marketing_accept"
+                    id="marketingAccept"
+                    name="marketingAccept"
+                    checked={formData.marketingAccept}
+                    onChange={handleInputChange}
                     className={`h-5 w-5 rounded-md ${inputBorderColor} ${inputBgColor} shadow-sm`}
                   />
-
                   <span className={`text-sm ${textColor}`}>
                     I want to receive emails about events, product updates and
                     company announcements.
@@ -197,17 +224,19 @@ const Signup = () => {
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                <button
+                  type="submit"
+                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                >
                   Create an account
                 </button>
 
                 <p className={`mt-4 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'} sm:mt-0`}>
                   Already have an account?
-                  <a href="#" className={`${textColor} underline`}>
+                  <Link to="/login" className={`${textColor} underline`}>
                     {" "}
                     Log in
-                  </a>
-                  .
+                  </Link>
                 </p>
               </div>
             </form>

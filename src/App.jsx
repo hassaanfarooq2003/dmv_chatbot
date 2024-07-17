@@ -6,15 +6,24 @@ import Home from './Homepage/Home'
 import ChatInterface from './Chatbot/ChatInterface'
 import Signup from './Auth/Signup'
 import Login from './Auth/Login'
-
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-<Signup/>
-    
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        {/*Just call the path name in the login and signup
+          and store the user id in the local storage.
+        */}
+
+        <Route path="/chat" element={<ChatInterface />} />
+      </Routes>
+    </Router>
     </>
   )
 }

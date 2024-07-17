@@ -3,7 +3,7 @@ import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import Footer from './Footer';
 import Section from './Section';
-
+import { Link } from 'react-router-dom';
 const navigation = [
   { name: 'Product', href: '#' },
   { name: 'Features', href: '#' },
@@ -75,9 +75,9 @@ export default function Home() {
                   <MoonIcon className="h-6 w-6" aria-hidden="true" />
                 )}
               </button>
-              <a href="#" className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 ml-4">
-                Log in <span aria-hidden="true">&rarr;</span>
-              </a>
+              <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 ml-4">
+              Log in/Signup<span aria-hidden="true">&rarr;</span>
+              </Link>
             </div>
           </nav>
           <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -129,12 +129,10 @@ export default function Home() {
                     ))}
                   </div>
                   <div className="py-6">
-                    <a
-                      href="#"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800"
-                    >
-                      Log in
-                    </a>
+                    <Link to="/login"  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800">
+                      Log in/Signup
+                    </Link>
+
                   </div>
                 </div>
               </div>
