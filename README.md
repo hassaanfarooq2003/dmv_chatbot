@@ -1,1 +1,2 @@
-just npm run dev
+### TO compile and run the code
+npm run dev
